@@ -64,7 +64,7 @@ class HT {
     table = newTable;
   }
   // Assignment write remove
-  void remove(Object key) {
+  void remove(Object key) { // My attempt
   
     if (contains(key) == true) {
       int h = key.hashCode(); 
@@ -86,9 +86,48 @@ class HT {
     }
     
   }
+  
+  void remove(Object key) { // Prof.'s
+    int h = key.hashCode(); 
+    int i = h & (table.size - 1); -> bucketId
+    
+    Node e = table[i];
+    p = null;
+    
+    while(e != null) {
+      if ( key.equals(e.key) {
+        if (p == null) table[i] = e.next;
+        else p.next = e.next;
+        break;
+      }
+      p = e;
+      e = e.next;
+    }
+  }
    
 }
 ```
+
+## Hash Function
+  - Make good and effcient hash function is the key to secure hash table
+### Example
+```
+  class Circle {
+    int x, y;
+    int radius;
+    
+    int hashCode () {
+      // either   x + y + radius 
+      // or       x ^ y ^ radius
+      // or       x ^ (y * 31) ^ (radius * 129);
+      return x ^ y ^ radius; // XOR
+    }
+  }
+```
+
+## Probability
+  - Probability of k keys hashing into **a given slot** is (1/M)^k, M = size
+  - Probability of k keys hashing into **any slot** is M * (1/M)^k = (1/M)^(k-1), M = size
 
 
 ## Similiarty
@@ -103,18 +142,19 @@ class HT {
   - Use hash function
   - But if they have been collisioned => hash function can't find the index => linear probing is brought back 
 
-#### Linear probabing 
-  - P(x) = ax
-  - An open addressing technique
-  - if the calculated address is occupied, then we use libear search to to find the available spot
-  - If it goes to the end of the array and can't find a spot, it might cycle back.
-  - If the Greatest Common Denominator (GCD) of a and N do not equal to 1, it's more likely to get into the loop => N and a can be two prime
-<img width="850" alt="image" src="https://user-images.githubusercontent.com/66233296/152666886-deffa43f-8b6e-4091-a07e-3f3ba3bcbc38.png">
-
 #### Load Factor -- alpha
   - To reduce collisions, make the size of the table bigger than the number of the element. (70% of the table should ever be occupid)
   - If load factor is reasonably low, open addressing with linear probing should work fine
 <img width="500" alt="image" src="https://user-images.githubusercontent.com/66233296/152664513-77b6870b-3e53-4380-8e6c-02736d67ba98.png">
+
+#### Linear probabing 
+  - P(x) = ax
+  - An open addressing technique
+  - if the calculated address is occupied, then we use libear search to to find the next available spot
+  - If it goes to the end of the array and can't find a spot, it might cycle back.
+  - If the Greatest Common Denominator (GCD) of a and N do not equal to 1, it's more likely to get into the loop => N and a can be two prime
+<img width="850" alt="image" src="https://user-images.githubusercontent.com/66233296/152666886-deffa43f-8b6e-4091-a07e-3f3ba3bcbc38.png">
+
 
 #### Quadratic probabing 
   - P(X) = ax^2 + bx + c (a != 0)  
