@@ -8,3 +8,45 @@ Create a GUI that allows a user to indicate one entity, and displays one or more
 The presentation details are up to you. Use Swing, JavaFX, or Android components for the GUI. For Swing, read through the relevant parts of the Swing tutorial first.
 
 Test your program thoroughly before submitting, and arrange a demo within 48 hours of submitting. (Demoing before submitting is strongly encouraged.)
+
+
+
+
+
+
+
+
+
+
+
+
+## Approach
+
+  BussinessDataModle.java
+    - id
+    - name
+    - address 
+    - city 
+    - long / lat 
+    - categories -> ArrayList<String> (this could be the key to compare)
+    
+  
+  - Create HashTable --> read each line of the business.json file --> each line is a BussinessDataModle --> store the models into the HashTable
+  
+  - 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
