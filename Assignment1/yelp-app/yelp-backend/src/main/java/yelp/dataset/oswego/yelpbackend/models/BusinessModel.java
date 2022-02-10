@@ -2,6 +2,7 @@ package yelp.dataset.oswego.yelpbackend.models;
 
 import java.util.ArrayList;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
@@ -9,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
 @Data //setters, getters, toString
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,12 +25,14 @@ public class BusinessModel {
     ArrayList<String> categories;
 
     
-    public String getCategories(){
-        String res = "";
-        for (int i = 0; i<categories.size(); i++) {
-            res = res.concat(categories.get(i).toString() + ", ");
-        }
-        return res;
-    }
+    // public String getCategories(){
+    //     String res = "";
+    //     for (int i = 0; i<categories.size(); i++) {
+    //         res = res.concat(categories.get(i).toString() + ", ");
+    //     }
+    //     return res;
+    // }
 
 }
+
+// Throw BusinessModel into a database -> make an endpoint to show all the data from the database
