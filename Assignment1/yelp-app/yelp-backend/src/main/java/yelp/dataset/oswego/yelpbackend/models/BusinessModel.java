@@ -22,9 +22,9 @@ public class BusinessModel {
     String name, business_id, address;
     Double stars, reviews, similarityRate;
 
-    ArrayList<String> categories;
+    // ArrayList<String> categories;
 
-    
+
     // public String getCategories(){
     //     String res = "";
     //     for (int i = 0; i<categories.size(); i++) {
