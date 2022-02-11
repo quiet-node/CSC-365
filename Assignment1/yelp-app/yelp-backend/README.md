@@ -9,7 +9,7 @@ docker pull --platform linux/amd64 mysql
 #### run mysql image
 
 ```
-docker run --name my_yelp_sql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=myYelpDB -d -p 3306:3306 mysql:latest
+docker run --name myYelpSql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=myYelpDB -d -p 3306:3306 mysql:latest
 ```
 
 ### Get to mysql bash

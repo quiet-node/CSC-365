@@ -5,25 +5,39 @@ import java.io.FileReader;
 import java.util.ArrayList;
 
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 import yelp.dataset.oswego.yelpbackend.models.BusinessModel;
 // import yelp.dataset.oswego.yelpbackend.repositories.BusinessRepository;
+import yelp.dataset.oswego.yelpbackend.repositories.BusinessRepository;
 
-public class JsonToSql {
-    // @Autowired
-    // private BusinessRepository businessRepository; // repo to store data
+@Component // this + CommandLineRunner are used to run code at application startup
+            // like useEffect in React
+public class JsonToSql implements CommandLineRunner{
 
-    public void toSql(String filename) {
 
+    @Autowired
+    private BusinessRepository businessRepository; // repo to store data
+
+    @Override
+    public void run(String... args) throws Exception {
+        // jsonToSql();
+    }
+
+    public void jsonToSql() {
         try {
+            // businessRepository.deleteAllInBatch();
+
             // buffrer reader to read lines in json file
-            FileReader reader = new FileReader(filename);
+            FileReader reader = new FileReader("/Users/logan/coding/SUNY_Oswego/CSC-365/In_Class/Assignment1/yelp-app/yelp-dataset/ignore.json");
             BufferedReader br = new BufferedReader(reader);
             String line = "";
 
             // loop through the json file
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 10000; i++) {
                 // each line of the file is a json object
                 line = br.readLine();
 
@@ -49,8 +63,7 @@ public class JsonToSql {
                 // a BusinessModel instance
                 BusinessModel bModel = new BusinessModel(0, name, business_id, address, stars, reviews, similarityRate);
 
-            
-                // businessRepository.save(bModel);
+                businessRepository.save(bModel);
                 
 
             }
@@ -60,4 +73,5 @@ public class JsonToSql {
             e.printStackTrace();
         }
     }
+    
 }

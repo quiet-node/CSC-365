@@ -6,4 +6,4 @@ import org.springframework.stereotype.Repository;
 import yelp.dataset.oswego.yelpbackend.models.BusinessModel;
 
 @Repository
-public interface BusinessRepository extends JpaRepository<BusinessModel, Integer>  {}
+public interface BusinessRepository extends JpaRepository<BusinessModel, Long>  {}

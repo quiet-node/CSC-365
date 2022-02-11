@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,10 +15,11 @@ import lombok.NoArgsConstructor;
 @Data //setters, getters, toString
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name="yelp")
 public class BusinessModel {
     @Id
     @GeneratedValue
-    private int id; // primary key
+    private long id; // primary key
 
     String name, business_id, address;
     Double stars, reviews, similarityRate;
