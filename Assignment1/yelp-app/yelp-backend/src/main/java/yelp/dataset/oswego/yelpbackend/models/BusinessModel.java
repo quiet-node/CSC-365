@@ -21,11 +21,21 @@ public class BusinessModel {
     @GeneratedValue
     private long id; // primary key
 
-    String name, business_id, address;
+    String  business_id, name, address;
     Double stars, reviews, similarityRate;
 
-    // ArrayList<String> categories;
+    ArrayList<String> categories;
 
+    // public BusinessModel(String _name, String _business_id, String _address, Double _stars, Double _reviews) {
+    //     name = _name;
+    //     business_id = _business_id;
+    //     address = _address;
+    //     stars = _stars;
+    //     reviews = _reviews;
+    //     categories = new ArrayList<>();
+    //     similarityRate = 99999.0;
+
+    // }
 
     // public String getCategories(){
     //     String res = "";

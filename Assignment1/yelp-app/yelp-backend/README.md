@@ -15,7 +15,7 @@ docker run --name myYelpSql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=my
 ### Get to mysql bash
 
 ```
-docker exec -it my_yelp_sql bash
+docker exec -it myYelpSql bash
 ```
 
 ### In the bash, to log into mysql
@@ -24,7 +24,7 @@ docker exec -it my_yelp_sql bash
 mysql -u root -p
 ```
 
-Then insert password
+Then insert password, which is "password"
 
 ### SQL commands
 
@@ -36,6 +36,14 @@ show databases;
 USE myYelpDB;
 SHOW TABLE;
 SELECT * FROM business_model;
+```
+
+### Attention
+
+- because the categories are too big, make sure to change the categories column data type to longblob
+
+```
+ALTER TABLE table_name MODIFY LONGBLOB
 ```
 
 ### Make sure springboot-demo-II/backend/src/main/resources/application.properties is filled with:

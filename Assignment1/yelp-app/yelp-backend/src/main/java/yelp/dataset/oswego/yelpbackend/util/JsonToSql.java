@@ -24,15 +24,15 @@ public class JsonToSql implements CommandLineRunner{
 
     @Override
     public void run(String... args) throws Exception {
-        // jsonToSql();
+        jsonToSql();
     }
 
     public void jsonToSql() {
         try {
-            // businessRepository.deleteAllInBatch();
+            businessRepository.deleteAllInBatch();
 
             // buffrer reader to read lines in json file
-            FileReader reader = new FileReader("/Users/logan/coding/SUNY_Oswego/CSC-365/In_Class/Assignment1/yelp-app/yelp-dataset/ignore.json");
+            FileReader reader = new FileReader("/Users/logan/coding/SUNY_Oswego/CSC-365/In_Class/Assignment1/yelp-app/yelp-dataset/business.json");
             BufferedReader br = new BufferedReader(reader);
             String line = "";
 
@@ -50,10 +50,13 @@ public class JsonToSql implements CommandLineRunner{
                 Double stars = bData.getDouble("stars");
                 Double reviews = bData.getDouble("review_count");
                 Double similarityRate = 99999.0;
+
+                // A list of string for categories
                 ArrayList<String> bCategories = new ArrayList<String>();
 
                 // get the values for categories-key and push them into an array
                 String[] categories = bData.get("categories").toString().split(",");
+                // String categoriesString = bData.get("categories").toString();
 
                 // add each category value to bCategories list
                 for (int j =0; j<categories.length; j++) {
@@ -61,10 +64,11 @@ public class JsonToSql implements CommandLineRunner{
                 }
 
                 // a BusinessModel instance
-                BusinessModel bModel = new BusinessModel(0, name, business_id, address, stars, reviews, similarityRate);
+                BusinessModel bModel = new BusinessModel(0, business_id, name, address, stars, reviews, similarityRate, bCategories);
+
+                bModel.setCategories(bCategories);
 
                 businessRepository.save(bModel);
-                
 
             }
 
