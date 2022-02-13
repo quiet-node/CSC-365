@@ -38,7 +38,7 @@ public class HashTable {
     }
 
     // unhashedIndex() normalizes the HashCode to find the index for each bucket
-    public int unhashedIndex(int hashedIndex) {
+    private int unhashedIndex(int hashedIndex) {
         return (hashedIndex & 0x7FFFFFFF) & (this.capacity - 1); // 0x7FFFFFFF strips off the sign bit makes it always positive
     }
 
@@ -56,12 +56,24 @@ public class HashTable {
 
         ++size; // increment size
 
-        if (size > threshold) resizeTable();
+        if (size > threshold) resize();
 
     };
 
+    // resizes the table
+    private void resize() {}
 
-    public void resizeTable() {}
 
+    // check if bucket has business
+    public boolean contains(BusinessModel business) {
+        int bucketIndex = unhashedIndex(business.hashCode());
+        LinkedList<BusinessModel> bucket = table[bucketIndex];
+
+        // loop through the bucket to find if it contains business
+        for (BusinessModel b : bucket) {
+            if (b == business) return true;
+        }
+        return false;
+    }
 
 }
