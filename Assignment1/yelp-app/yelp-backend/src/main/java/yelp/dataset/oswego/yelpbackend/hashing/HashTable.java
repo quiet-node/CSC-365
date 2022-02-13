@@ -16,7 +16,7 @@ public class HashTable {
         }
     }
     /* 
-        Description: Hash Table is an array of LinkedList, and each node::LinkedList is an instance of BusinessModel.
+        DESCRIPTION: Hash Table is an array of LinkedList, and each node::LinkedList is an instance of BusinessModel.
     */
 
  
@@ -26,13 +26,12 @@ public class HashTable {
     - threshold tells the table when to resize
     */
     private int capacity, threshold, size = 0; 
-    private double loadFactor;
+    private double loadFactor = 0.75;
     private LinkedList<BusinessModel>[] table; // table is an array of Node 
 
     // Constructr
-    public HashTable(int capacity, double loadFactor)  {
+    public HashTable(int capacity)  {
         this.capacity = capacity; 
-        this.loadFactor = loadFactor;
         threshold = (int) (this.capacity*loadFactor);
         table = new LinkedList[this.capacity];  
     }
@@ -52,16 +51,41 @@ public class HashTable {
 
         // loop through the bucket at table[bucketIndex]
         LinkedList<BusinessModel> bucket = table[bucketIndex];
-        bucket.add(business);
+
+        if (bucket == null) table[bucketIndex] = bucket = new LinkedList<BusinessModel>(); // fix NullPointer 
+
+        bucket.add(business); 
 
         ++size; // increment size
 
-        if (size > threshold) resize();
+        if (size > threshold) resize(); // resize if threshold is reached
 
     };
 
     // resizes the table
-    private void resize() {}
+    private void resize() {
+        capacity = table.length << 1; // new capacity left shift 1 == 2x
+        threshold = (int) (capacity * loadFactor);  //new threshold
+        LinkedList<BusinessModel>[] newTable = new LinkedList[capacity];
+
+        // loop through table 
+        for (int i = 0; i < table.length; i++) {
+            // each index on the table is a linkedlist of BusinessModel
+            for(BusinessModel b : table[i]) {
+                // For each b in linkedlist table[i], get bucketIndex
+                int bucketIndex = unhashedIndex(b.hashCode());
+                LinkedList<BusinessModel> bucket = newTable[bucketIndex];
+
+                if (bucket == null) newTable[bucketIndex] = bucket = new LinkedList<BusinessModel>(); // fix NullPointer
+                bucket.add(b);
+
+            } // finished adding all the business from old table to new table
+
+        }
+
+        table = newTable; 
+
+    }
 
 
     // check if bucket has business

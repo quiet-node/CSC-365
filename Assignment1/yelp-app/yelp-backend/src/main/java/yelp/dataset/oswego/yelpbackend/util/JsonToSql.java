@@ -3,6 +3,7 @@ package yelp.dataset.oswego.yelpbackend.util;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,9 +81,15 @@ public class JsonToSql implements CommandLineRunner{
         }
     }
     public void Testing(BusinessModel business) {
-        HashTable ht = new HashTable(500, 0.75);
-        int index = ht.unhashedIndex(business.hashCode());
-        System.out.println("unhashedIndex" + index);
+        LinkedList<BusinessModel>[] table = new LinkedList[10];
+        LinkedList<BusinessModel> bucket = table[0];
+
+        if (bucket == null) {
+            table[0] = bucket = new LinkedList<>();
+        }
+        bucket.add(business);
+        
+
     }
     
 }
