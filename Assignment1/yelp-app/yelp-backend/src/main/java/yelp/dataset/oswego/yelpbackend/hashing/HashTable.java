@@ -27,7 +27,7 @@ public class HashTable {
     */
     private int capacity, threshold, size = 0; 
     private double loadFactor;
-    private LinkedList<BusinessModel>[] table; // table is an array of linkedList 
+    private LinkedList<BusinessModel>[] table; // table is an array of Node 
 
     // Constructr
     public HashTable(int capacity, double loadFactor)  {
@@ -43,19 +43,25 @@ public class HashTable {
     }
 
 
-    // insert() use to insert business into the hashtable
+    // add() use to insert business into the hashtable
     public void add(BusinessModel business) {
         if (business == null) throw new IllegalArgumentException("Null key");
 
         // find  the bucketIdex it belongs too
         int bucketIndex = unhashedIndex(business.hashCode()); 
 
-        // loop through the array of linkedlist at table[bucketIndex]
+        // loop through the bucket at table[bucketIndex]
         LinkedList<BusinessModel> bucket = table[bucketIndex];
+        bucket.add(business);
+
+        ++size; // increment size
+
+        if (size > threshold) resizeTable();
 
     };
 
 
+    public void resizeTable() {}
 
 
 }
