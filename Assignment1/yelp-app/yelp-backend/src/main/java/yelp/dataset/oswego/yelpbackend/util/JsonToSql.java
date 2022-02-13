@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import yelp.dataset.oswego.yelpbackend.hashing.HashTable;
 import yelp.dataset.oswego.yelpbackend.models.BusinessModel;
 // import yelp.dataset.oswego.yelpbackend.repositories.BusinessRepository;
 import yelp.dataset.oswego.yelpbackend.repositories.BusinessRepository;
@@ -24,13 +25,12 @@ public class JsonToSql implements CommandLineRunner{
 
     @Override
     public void run(String... args) throws Exception {
-        jsonToSql();
+        // jsonToSql();
     }
 
     public void jsonToSql() {
         try {
-            businessRepository.deleteAllInBatch();
-
+            // businessRepository.deleteAllInBatch();
             // buffrer reader to read lines in json file
             FileReader reader = new FileReader("/Users/logan/coding/SUNY_Oswego/CSC-365/In_Class/Assignment1/yelp-app/yelp-dataset/business.json");
             BufferedReader br = new BufferedReader(reader);
@@ -65,10 +65,12 @@ public class JsonToSql implements CommandLineRunner{
 
                 // a BusinessModel instance
                 BusinessModel bModel = new BusinessModel(0, business_id, name, address, stars, reviews, similarityRate, bCategories);
-
+            
                 bModel.setCategories(bCategories);
 
-                businessRepository.save(bModel);
+                Testing(bModel);
+
+                // businessRepository.save(bModel);
 
             }
 
@@ -76,6 +78,11 @@ public class JsonToSql implements CommandLineRunner{
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public void Testing(BusinessModel business) {
+        HashTable ht = new HashTable(500, 0.75);
+        int index = ht.unhashedIndex(business.hashCode());
+        System.out.println("unhashedIndex" + index);
     }
     
 }

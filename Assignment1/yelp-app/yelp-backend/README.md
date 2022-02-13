@@ -38,12 +38,12 @@ SHOW TABLE;
 SELECT * FROM business_model;
 ```
 
-### Attention
+## Attention
 
-- because the categories are too big, make sure to change the categories column data type to longblob
+because the categories are too big, make sure to change the categories column data type to longblob
 
 ```
-ALTER TABLE table_name MODIFY LONGBLOB
+ALTER TABLE yelp MODIFY categories LONGBLOB;
 ```
 
 ### Make sure springboot-demo-II/backend/src/main/resources/application.properties is filled with:
