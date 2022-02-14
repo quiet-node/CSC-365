@@ -70,16 +70,18 @@ public class HashTable {
 
         // loop through table 
         for (int i = 0; i < table.length; i++) {
-            // each index on the table is a linkedlist of BusinessModel
-            for(BusinessModel b : table[i]) {
-                // For each b in linkedlist table[i], get bucketIndex
-                int bucketIndex = unhashedIndex(b.hashCode());
-                LinkedList<BusinessModel> bucket = newTable[bucketIndex];
+            if (table[i] != null) {
+                // each index on the table is a linkedlist of BusinessModel
+                for(BusinessModel b : table[i]) {
+                    // For each b in linkedlist table[i], get bucketIndex
+                    int bucketIndex = unhashedIndex(b.hashCode());
+                    LinkedList<BusinessModel> bucket = newTable[bucketIndex];
 
-                if (bucket == null) newTable[bucketIndex] = bucket = new LinkedList<BusinessModel>(); // fix NullPointer
-                bucket.add(b);
+                    if (bucket == null) newTable[bucketIndex] = bucket = new LinkedList<BusinessModel>(); // fix NullPointer
+                    bucket.add(b);
 
-            } // finished adding all the business from old table to new table
+                } // finished adding all the business from old table to new table
+            }
 
         }
 
@@ -98,6 +100,13 @@ public class HashTable {
             if (b == business) return true;
         }
         return false;
+    }
+
+    public int getSize() {
+        return this.size;
+    }
+    public LinkedList<BusinessModel> getBusiness() {
+        return table[0];
     }
 
 }

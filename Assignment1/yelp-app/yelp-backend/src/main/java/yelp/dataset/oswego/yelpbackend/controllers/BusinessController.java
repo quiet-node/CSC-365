@@ -13,18 +13,15 @@ import yelp.dataset.oswego.yelpbackend.models.BusinessModel;
 import yelp.dataset.oswego.yelpbackend.repositories.BusinessRepository;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/yelpdata")
 public class BusinessController {
     @Autowired
     private BusinessRepository businessRepository; // repo to store data
 
-    @GetMapping("/")
+    @GetMapping("")
     public List<BusinessModel> getB() {
         return businessRepository.findAll();
     }
 
-    @PostMapping("/")
-    public BusinessModel addBusiness(@RequestBody BusinessModel business) {
-        return businessRepository.save((business));
-    }
+    
 }

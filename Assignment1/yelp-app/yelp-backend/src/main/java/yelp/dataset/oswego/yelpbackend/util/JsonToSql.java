@@ -30,15 +30,16 @@ public class JsonToSql implements CommandLineRunner{
     }
 
     public void jsonToSql() {
+        HashTable hashTable = new HashTable(5);
         try {
             // businessRepository.deleteAllInBatch();
             // buffrer reader to read lines in json file
-            FileReader reader = new FileReader("/Users/logan/coding/SUNY_Oswego/CSC-365/In_Class/Assignment1/yelp-app/yelp-dataset/business.json");
+            FileReader reader = new FileReader("/Users/logan/coding/SUNY_Oswego/CSC-365/In_Class/Assignment1/yelp-app/yelp-dataset/small_business.json");
             BufferedReader br = new BufferedReader(reader);
             String line = "";
 
             // loop through the json file
-            for (int i = 0; i < 10000; i++) {
+            for (int i = 0; i < 10; i++) {
                 // each line of the file is a json object
                 line = br.readLine();
 
@@ -69,8 +70,10 @@ public class JsonToSql implements CommandLineRunner{
             
                 bModel.setCategories(bCategories);
 
-                Testing(bModel);
+                // write to hashTable
+                hashTable.add(bModel);
 
+                // write to MySql;
                 // businessRepository.save(bModel);
 
             }
@@ -80,6 +83,7 @@ public class JsonToSql implements CommandLineRunner{
             e.printStackTrace();
         }
     }
+    
     public void Testing(BusinessModel business) {
         LinkedList<BusinessModel>[] table = new LinkedList[10];
         LinkedList<BusinessModel> bucket = table[0];
