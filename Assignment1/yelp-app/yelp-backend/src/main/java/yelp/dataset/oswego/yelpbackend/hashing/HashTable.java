@@ -44,7 +44,6 @@ public class HashTable {
 
     // add() use to insert business into the hashtable
     public void add(BusinessModel business) {
-        if (business == null) throw new IllegalArgumentException("Null key");
 
         // find  the bucketIdex it belongs too
         int bucketIndex = unhashedIndex(business.hashCode()); 
@@ -104,9 +103,6 @@ public class HashTable {
 
     public int getSize() {
         return this.size;
-    }
-    public LinkedList<BusinessModel> getBusiness() {
-        return table[0];
     }
 
 }
