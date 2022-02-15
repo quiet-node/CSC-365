@@ -46,7 +46,7 @@ because the categories are too big, make sure to change the categories column da
 ALTER TABLE yelp MODIFY categories LONGBLOB;
 ```
 
-### Make sure springboot-demo-II/backend/src/main/resources/application.properties is filled with:
+### Make sure yelp-backend/src/main/resources/application.properties is filled with:
 
     spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
     spring.datasource.username=root
