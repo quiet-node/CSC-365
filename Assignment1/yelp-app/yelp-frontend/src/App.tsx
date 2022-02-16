@@ -1,7 +1,11 @@
+import YelpData from './components/YelpData';
+
 function App() {
   return (
-    <div className='text-2xl bg-violet-400 p-10 flex items-center justify-center'>
-      Yelp-App
+    <div className='min-h-screen'>
+      <div className='flex items-center justify-center'>
+        <YelpData />
+      </div>
     </div>
   );
 }
