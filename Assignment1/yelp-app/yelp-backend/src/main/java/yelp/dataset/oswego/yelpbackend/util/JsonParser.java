@@ -18,7 +18,7 @@ import yelp.dataset.oswego.yelpbackend.repositories.BusinessRepository;
 
 @Component // this + CommandLineRunner are used to run code at application startup
             // like useEffect in React
-public class JsonToSql implements CommandLineRunner{
+public class JsonParser implements CommandLineRunner{
 
 
     @Autowired
@@ -29,7 +29,7 @@ public class JsonToSql implements CommandLineRunner{
         // jsonToSql();
     }
 
-    public void jsonToSql() {
+    public void jsonParser() {
         HashTable hashTable = new HashTable(5);
         try {
             // businessRepository.deleteAllInBatch();
