@@ -12,7 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Data //setters, getters, toString
+@Data //setters, getters, toString, hashcode
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="yelp")

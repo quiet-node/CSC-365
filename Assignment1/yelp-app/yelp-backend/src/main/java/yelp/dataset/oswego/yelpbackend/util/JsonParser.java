@@ -62,7 +62,7 @@ public class JsonParser implements CommandLineRunner{
 
                 // add each category value to bCategories list
                 for (int j =0; j<categories.length; j++) {
-                    bCategories.add(categories[j]);
+                    bCategories.add(categories[j].trim());
                 }
 
                 // a BusinessModel instance
