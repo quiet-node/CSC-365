@@ -34,13 +34,19 @@ show databases;
 
 ```
 USE myYelpDB;
-SHOW TABLE;
+SHOW TABLEs;
 SELECT * FROM business_model;
 ```
 
 ## Attention
 
 because the categories are too big, make sure to change the categories column data type to longblob
+
+first, in JsonParser class, specify a random JPA query to create the table.
+
+```repository.findAll()``` in run method;
+
+Then alter the table
 
 ```
 ALTER TABLE yelp MODIFY categories LONGBLOB;
