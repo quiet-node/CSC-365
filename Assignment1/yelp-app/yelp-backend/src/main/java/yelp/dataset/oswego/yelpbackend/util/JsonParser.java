@@ -80,7 +80,7 @@ public class JsonParser implements CommandLineRunner{
                 
 
                 // write to hashTable
-                hashTable.add(bModel);
+                // hashTable.add(bModel);
 
 
                 // write to MySql;

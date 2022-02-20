@@ -42,7 +42,7 @@ public class HashTable {
         // termMap = { term: timesUsed }
         HashMap<String, Integer> termMap = new HashMap<>();
 
-        // loop through the bucket at table[bucketIndex]
+        // bucket:HashMap at table[bucketIndex]
         LinkedList<HashMap<String, Integer>> bucket = table[bucketIndex];
 
         
@@ -130,8 +130,29 @@ public class HashTable {
         return false; // if no bucket contains term
     }
 
-    public int getSize() {
-        return this.size;
+    // getTerm:int return term frequency
+    public int getTerm(String term) {
+        
+
+        // find  the bucketIdex it belongs to
+        int bucketIndex = unhashedIndex(term.hashCode()); 
+
+        // bucket:HashMap at table[bucketIndex]
+        LinkedList<HashMap<String, Integer>> bucket = table[bucketIndex];
+
+        // loop through the bucket to find if it contains term
+        for (HashMap<String, Integer> collision : bucket) {
+            for(String keyTerm : collision.keySet()) { // each collision is a hashmap
+                if (term.equals(keyTerm)) {
+                    return collision.get(term);
+                } 
+            }
+        }
+
+        // if term is not in the table
+        return -1;
     }
+
+    
 
 }
