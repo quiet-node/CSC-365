@@ -15,6 +15,7 @@ import yelp.dataset.oswego.yelpbackend.hashing.HashTable;
 import yelp.dataset.oswego.yelpbackend.models.BusinessModel;
 // import yelp.dataset.oswego.yelpbackend.repositories.BusinessRepository;
 import yelp.dataset.oswego.yelpbackend.repositories.BusinessRepository;
+import yelp.dataset.oswego.yelpbackend.similarity.CosSim;
 
 @Component // this + CommandLineRunner are used to run code at application startup
             // like useEffect in React
@@ -24,9 +25,13 @@ public class JsonParser implements CommandLineRunner{
     @Autowired
     private BusinessRepository businessRepository; // repo to store data
 
+    ArrayList<BusinessModel> businessList = new ArrayList<>();
+
     @Override
     public void run(String... args) throws Exception {
-        // jsonToSql();
+        // jsonParser();
+        // Testing(businessList);
+
     }
 
     public void jsonParser() {
@@ -34,12 +39,12 @@ public class JsonParser implements CommandLineRunner{
         try {
             // businessRepository.deleteAllInBatch();
             // buffrer reader to read lines in json file
-            FileReader reader = new FileReader("/Users/logan/coding/SUNY_Oswego/CSC-365/In_Class/Assignment1/yelp-app/yelp-dataset/small_business.json");
+            FileReader reader = new FileReader("/Users/logan/coding/SUNY_Oswego/CSC-365/In_Class/Assignment1/yelp-app/yelp-dataset/business.json");
             BufferedReader br = new BufferedReader(reader);
             String line = "";
 
             // loop through the json file
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 10000; i++) {
                 // each line of the file is a json object
                 line = br.readLine();
 
@@ -70,8 +75,13 @@ public class JsonParser implements CommandLineRunner{
             
                 bModel.setCategories(bCategories);
 
+                businessList.add(bModel);
+
+                
+
                 // write to hashTable
                 hashTable.add(bModel);
+
 
                 // write to MySql;
                 // businessRepository.save(bModel);
@@ -84,15 +94,20 @@ public class JsonParser implements CommandLineRunner{
         }
     }
     
-    public void Testing(BusinessModel business) {
-        LinkedList<BusinessModel>[] table = new LinkedList[10];
-        LinkedList<BusinessModel> bucket = table[0];
+    public void Testing(ArrayList<BusinessModel> businessList) {
 
-        if (bucket == null) {
-            table[0] = bucket = new LinkedList<>();
+        for(int i = 1; i < businessList.size(); i++) {
+            BusinessModel businessA = businessList.get(0);
+            BusinessModel businessB = businessList.get(i);
+            CosSim CosSimRate = new CosSim();
+            double cosSimRate = CosSimRate.calcSimRate(businessA, businessB);
+            businessB.setSimilarityRate(cosSimRate);
+
+            System.out.println(businessB.getName() +" is " +businessB.getSimilarityRate() * 100 + " percent similar to " + businessA.getName());
         }
-        bucket.add(business);
         
+
+
 
     }
     

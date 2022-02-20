@@ -96,7 +96,8 @@ public class HashTable {
 
         // loop through the bucket to find if it contains business
         for (BusinessModel b : bucket) {
-            if (b == business) return true;
+            if (b == business) 
+            return true;
         }
         return false;
     }

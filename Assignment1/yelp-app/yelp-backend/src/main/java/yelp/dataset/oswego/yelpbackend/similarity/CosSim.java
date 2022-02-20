@@ -11,6 +11,7 @@ import yelp.dataset.oswego.yelpbackend.models.BusinessModel;
 public class CosSim {
     
 
+    private double cosSimRate;
     
     // catFilter:string => filter out the "&" and " "
     // For example:
@@ -48,38 +49,37 @@ public class CosSim {
             }
         }
 
-
         return res;
     }
 
-    // makeMatrix:HashMap => the whole matrix
-    private HashMap<String, Integer> makeMatrix(HashSet<String> termMatrix, ArrayList<String> categories) {
+    // makeVector:HashMap => the whole Vector
+    private HashMap<String, Integer> makeVector(HashSet<String> termVector, ArrayList<String> categories) {
 
-        HashMap<String, Integer> matrix = new HashMap<>();
-        // matrix looks like
-        //	            Restaurants	   Beauty   Spas    Coffee 		 Tea
-        // matrixA 			1			1		 0        1           0
+        HashMap<String, Integer> vector = new HashMap<>();
 
 
-        for (String term: termMatrix){  // loop through termMatrix
+        for (String term: termVector){  // loop through termVector
             term = term.trim(); 
            for(String cat : categories) {   // cat can be "Coffee & Tea"
                cat = cat.trim();
                String[] catArr = cat.split(" "); //catArr = ["Coffee", "&", "Tea"]
                for(String c:catArr) { // c = "Coffee", c ="&", c ="Tea"
                    if (term.equals(c)) { 
-                       if (matrix.get(c) == null) { // if term is not defined, then set it =1 
-                           matrix.put(term, 1); 
+                       if (vector.get(c) == null) { // if term is not defined, then set it =1 
+                            vector.put(term, 1); 
                        } else {
-                           matrix.put(term, matrix.get(term)+1); // ++ if already defined
+                            vector.put(term, vector.get(term)+1); // ++ if already defined
                        }
                    }
                }
            }
         }
 
-        return matrix;
+
+        return vector;
     }
+
+    
     
     
 
@@ -88,20 +88,20 @@ public class CosSim {
         
         double dotProd = 0;
 
-        // termMatrix contains all relevant words from catA and catB
-        HashSet<String> termMatrix = catFilter(catA, catB);
+        // termVector contains all relevant words from catA and catB
+        HashSet<String> termVector = catFilter(catA, catB);
 
-        // docTermMatrix:HashMap<String ,Integer> 
-        HashMap<String, Integer> matrixA = makeMatrix(termMatrix, catA);
-        HashMap<String, Integer> matrixB = makeMatrix(termMatrix, catB);
+        // docTermVector:HashMap<String ,Integer> 
+        HashMap<String, Integer> vectorA = makeVector(termVector, catA);
+        HashMap<String, Integer> vectorB = makeVector(termVector, catB);
 
-        // loop through termMatrix
-        for(String term : termMatrix) {
+        // loop through termVector
+        for(String term : termVector) {
             // dotProd = x1*y1 + x2*y2
             // It masters only when term != null
-            if (matrixA.get(term) != null && matrixB.get(term) != null) { 
-                int valueA = matrixA.get(term);
-                int valueB = matrixB.get(term);
+            if (vectorA.get(term) != null && vectorB.get(term) != null) { 
+                int valueA = vectorA.get(term);
+                int valueB = vectorB.get(term);
 
                 int product = valueA * valueB;
                 dotProd += product;
@@ -111,22 +111,57 @@ public class CosSim {
         return dotProd;        
     }
 
-    // Euclidian distance of each vector
 
+    // Magnitude of each vector
+    private double calcMagnitude(HashSet<String> termVector, HashMap<String, Integer> vector) {
+        
+        double sumDist = 0.0;
+        
+        // loop through termVector
+        for(String term : termVector) {
+            //It master only when term != null
+            if (vector.get(term) != null) {
+                sumDist += Math.pow(vector.get(term), 2);
+            }
+        }
+
+        return Math.sqrt(sumDist);
+    }
+
+
+    // Magnitude product of the 2 vectors
+    private double calcMagProduct(ArrayList<String> catA, ArrayList<String> catB) {
+
+        // termVector contains all relevant words from catA and catB
+        HashSet<String> termVector = catFilter(catA, catB);
+
+        // docTermVector:HashMap<String ,Integer> 
+        HashMap<String, Integer> vectorA = makeVector(termVector, catA);
+        HashMap<String, Integer> vectorB = makeVector(termVector, catB);
+
+        double magVectorA = calcMagnitude(termVector, vectorA);
+        double magVectorB = calcMagnitude(termVector, vectorB);
+
+
+        return magVectorA * magVectorB;
+        
+    }
 
 
     // calculate simRate 
     public double calcSimRate(BusinessModel businessA, BusinessModel businessB) {
         // Cos(X, Y) = (X.Y) / (||X|| * ||Y||)
-        // Pseudo: simRate = Cos(X,Y) = (dotProduct) / (Euclidean vector X * Euclidean vector Y)
+        // Pseudo: simRate = Cos(X,Y) = (dotProduct) / (Magnitude vector X * Magnitude vector Y)
 
         ArrayList<String> catA = businessA.getCategories();
         ArrayList<String> catB = businessB.getCategories();
 
         double dotProduct = calcDotProduct(catA, catB);
+        double magProduct = calcMagProduct(catA, catB);
 
+        this.cosSimRate = dotProduct / magProduct;
 
-        return 0;
+        return this.cosSimRate;
     }
 
 
