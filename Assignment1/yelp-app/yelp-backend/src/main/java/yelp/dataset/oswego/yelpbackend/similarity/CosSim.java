@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import lombok.NoArgsConstructor;
+import yelp.dataset.oswego.yelpbackend.hashing.HashTable;
 import yelp.dataset.oswego.yelpbackend.models.BusinessModel;
 
 @NoArgsConstructor
@@ -79,7 +80,14 @@ public class CosSim {
         return vector;
     }
 
-    
+    private HashTable makeVectorHashTable(HashSet<String> termVector, ArrayList<String> categories) {
+        HashTable ht = new HashTable(5);
+
+
+        
+        return ht;
+    }
+
     
     
 
