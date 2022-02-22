@@ -112,7 +112,7 @@ public class HashTable {
     }
 
 
-    // check if bucket has business
+    // check if bucket has term
     public boolean contains(String term) {
         int bucketIndex = unhashedIndex(term.hashCode()); // get bucketID
         LinkedList<HashMap<String, Integer>> bucket = table[bucketIndex]; // get bucket at bucketID
