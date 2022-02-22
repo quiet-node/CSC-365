@@ -3,19 +3,15 @@ package yelp.dataset.oswego.yelpbackend.util;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import yelp.dataset.oswego.yelpbackend.hashing.HashTable;
 import yelp.dataset.oswego.yelpbackend.models.BusinessModel;
-// import yelp.dataset.oswego.yelpbackend.repositories.BusinessRepository;
 import yelp.dataset.oswego.yelpbackend.repositories.BusinessRepository;
-import yelp.dataset.oswego.yelpbackend.similarity.CosSim;
 
 @Component // this + CommandLineRunner are used to run code at application startup
             // like useEffect in React
@@ -29,8 +25,8 @@ public class JsonParser implements CommandLineRunner{
 
     @Override
     public void run(String... args) throws Exception {
-        // jsonParser();
-        // Testing(businessList);
+        jsonParser();
+        Testing();
 
     }
 
@@ -43,8 +39,9 @@ public class JsonParser implements CommandLineRunner{
             BufferedReader br = new BufferedReader(reader);
             String line = "";
 
+
             // loop through the json file
-            for (int i = 0; i < 10000; i++) {
+            for (int i = 0; i < 100; i++) {
                 // each line of the file is a json object
                 line = br.readLine();
 
@@ -77,38 +74,19 @@ public class JsonParser implements CommandLineRunner{
 
                 businessList.add(bModel);
 
-                
-
-                // write to hashTable
-                // hashTable.add(bModel);
-
-
                 // write to MySql;
                 // businessRepository.save(bModel);
 
             }
-
+            // Testing(businessList);
             br.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
     
-    public void Testing(ArrayList<BusinessModel> businessList) {
-
-        for(int i = 1; i < businessList.size(); i++) {
-            BusinessModel businessA = businessList.get(0);
-            BusinessModel businessB = businessList.get(i);
-            CosSim CosSimRate = new CosSim();
-            double cosSimRate = CosSimRate.calcSimRate(businessA, businessB);
-            businessB.setSimilarityRate(cosSimRate);
-
-            System.out.println(businessB.getName() +" is " +businessB.getSimilarityRate() * 100 + " percent similar to " + businessA.getName());
-        }
+    public void Testing() {
         
-
-
-
     }
     
 }

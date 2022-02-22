@@ -14,6 +14,7 @@ public class CosSim {
 
     private double cosSimRate;
     
+    
     // catFilter:string => filter out the "&" and " "
     // For example:
     //      catA = ["Gastropubs"," Food"," Beer Gardens"," Restaurants"," Bars"," American (Traditional)"," Beer Bar"," Nightlife"," Breweries"]
@@ -24,7 +25,7 @@ public class CosSim {
 
     private HashSet<String> catFilter(ArrayList<String> catA, ArrayList<String> catB) {
 
-        HashSet<String> termVector = new HashSet<>();
+        HashSet<String> termMatrix = new HashSet<>();
 
         // filter catA
         for(String cat : catA) { // EX: cat = "Coffee & Tea"
@@ -33,33 +34,33 @@ public class CosSim {
 
             for(String c : catArr) { // c = "Coffee", c="&", c="Tea"
                 if (!c.equals("&")){
-                    termVector.add(c);
+                    termMatrix.add(c);
                 }
             }
         }
 
-        // filter and add catB to termVector
+        // filter and add catB to termMatrix
         for (String cat : catB) {
             cat = cat.trim();
             String[] catArr = cat.split(" ");
 
             for(String c : catArr) {
                 if (!c.equals("&")) {
-                    termVector.add(c);
+                    termMatrix.add(c);
                 }
             }
         }
 
-        return termVector;
+        return termMatrix;
     }
 
     // makeVector:HashMap => the whole Vector
-    private HashMap<String, Integer> makeVectorDeprecated(HashSet<String> termVector, ArrayList<String> categories) {
+    private HashMap<String, Integer> makeVectorDeprecated(HashSet<String> termMatrix, ArrayList<String> categories) {
 
         HashMap<String, Integer> vector = new HashMap<>();
 
 
-        for (String term: termVector){  // loop through termVector
+        for (String term: termMatrix){  // loop through termMatrix
             term = term.trim(); 
            for(String cat : categories) {   // cat can be "Coffee & Tea"
                cat = cat.trim();
@@ -80,12 +81,13 @@ public class CosSim {
         return vector;
     }
 
-    private HashTable makeVector(HashSet<String> termVector, ArrayList<String> categories) {
+    // makeVector:HashTable => vector of each category
+    private HashTable makeVector(HashSet<String> termMatrix, ArrayList<String> categories) {
 
-        // init a vectoc:hashtable
-        HashTable vector = new HashTable(5);
+        // init a vector:hashtable
+        HashTable vector = new HashTable(10);
 
-        for (String term: termVector){  // loop through termVector
+        for (String term: termMatrix){  // loop through termMatrix
             term = term.trim(); // clean the term
             for(String cat : categories) {   // cat can be "Coffee & Tea"
                cat = cat.trim();
@@ -112,15 +114,14 @@ public class CosSim {
         // init dotProd:double
         double dotProd = 0;
 
-        // termVector contains all relevant words from catA and catB
-        HashSet<String> termVector = catFilter(catA, catB);
+        // termMatrix contains all relevant words from catA and catB
+        HashSet<String> termMatrix = catFilter(catA, catB);
 
         // init vectors:HashTable
-        HashTable vectorA = makeVector(termVector, catA);
-        HashTable vectorB = makeVector(termVector, catB);
-
-        // loop through termVector
-        for(String term : termVector) {
+        HashTable vectorA = makeVector(termMatrix, catA);
+        HashTable vectorB = makeVector(termMatrix, catB);
+        // loop through termMatrix
+        for(String term : termMatrix) {
             // dotProd = x1*y1 + x2*y2
             // It masters only when term != null a.k.a term.value > 0
             if (vectorA.getTerm(term) > 0 && vectorB.getTerm(term) > 0) {
@@ -131,6 +132,8 @@ public class CosSim {
                     dotProd += product; 
             }
 
+
+
         }
 
         return dotProd;        
@@ -138,12 +141,12 @@ public class CosSim {
 
 
     // Magnitude of each vector
-    private double calcMagnitude(HashSet<String> termVector, HashTable vector) {
+    private double calcMagnitude(HashSet<String> termMatrix, HashTable vector) {
         
         double sumFreq = 0.0;
         
-        // loop through termVector
-        for(String term : termVector) {
+        // loop through termMatrix
+        for(String term : termMatrix) {
             //It master only when term != null a.k.a term.value > 0
             if (vector.getTerm(term) > 0) {
                 sumFreq += Math.pow(vector.getTerm(term), 2);
@@ -157,15 +160,15 @@ public class CosSim {
     // Magnitude product of the 2 vectors
     private double calcMagProduct(ArrayList<String> catA, ArrayList<String> catB) {
 
-        // termVector contains all relevant words from catA and catB
-        HashSet<String> termVector = catFilter(catA, catB);
+        // termMatrix contains all relevant words from catA and catB
+        HashSet<String> termMatrix = catFilter(catA, catB);
 
-        // docTermVector:HashMap<String ,Integer> 
-        HashTable vectorA = makeVector(termVector, catA);
-        HashTable vectorB = makeVector(termVector, catB);
+        // doctermMatrix:HashMap<String ,Integer> 
+        HashTable vectorA = makeVector(termMatrix, catA);
+        HashTable vectorB = makeVector(termMatrix, catB);
 
-        double magVectorA = calcMagnitude(termVector, vectorA);
-        double magVectorB = calcMagnitude(termVector, vectorB);
+        double magVectorA = calcMagnitude(termMatrix, vectorA);
+        double magVectorB = calcMagnitude(termMatrix, vectorB);
 
 
         return magVectorA * magVectorB;
@@ -188,6 +191,8 @@ public class CosSim {
 
         return this.cosSimRate;
     }
+
+  
 
 
 }

@@ -4,21 +4,17 @@ import axios from 'axios';
 const YelpData = () => {
   const [businessName, setBusinessName] = useState('');
 
-  const getBusiness = async (): Promise<void> => {
+  const getSimilarBusinesses = async (): Promise<void> => {
     const res = await axios.get(
-      `http://localhost:8080/yelpdata/${businessName}`
+      `http://localhost:8080/yelpdata/similar/${businessName}`
     );
-
-    res.data.map((business: any) => {
-      const { categories } = business;
-      console.log(categories);
-    });
+    console.log(res.data);
   };
 
   const getAllBusinesses = async (): Promise<void> => {
     const res = await axios.get('http://localhost:8080/yelpdata/allBusinesses');
 
-    console.log(res.data);
+    console.log('res.data');
   };
 
   return (
@@ -34,17 +30,17 @@ const YelpData = () => {
         />
         <button
           className='bg-blue-500 py-2 px-5 border-2 rounded-lg  '
-          onClick={getBusiness}
+          onClick={getSimilarBusinesses}
         >
           {' '}
-          Get Business{' '}
+          Get Similar Businessses{' '}
         </button>
         <button
           className='bg-blue-500 py-2 px-5 border-2 rounded-lg  '
           onClick={getAllBusinesses}
         >
           {' '}
-          Get All Businesss{' '}
+          Get All Businessses{' '}
         </button>
       </div>
     </div>

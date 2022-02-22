@@ -20,7 +20,7 @@ public class HashTable {
     private double loadFactor = 0.75;
     private LinkedList<HashMap<String, Integer>>[] table; // table is an array of Node 
 
-    // Constructr
+    // Constructor
     public HashTable(int capacity)  {
         this.capacity = capacity; 
         threshold = (int) (this.capacity*loadFactor);
@@ -65,8 +65,6 @@ public class HashTable {
             bucket.add(termMap);
 
         }
-
-        // bucket.add(); 
 
         ++size; // increment size
 
@@ -133,7 +131,6 @@ public class HashTable {
     // getTerm:int return term frequency
     public int getTerm(String term) {
         
-
         // find  the bucketIdex it belongs to
         int bucketIndex = unhashedIndex(term.hashCode()); 
 
@@ -141,12 +138,15 @@ public class HashTable {
         LinkedList<HashMap<String, Integer>> bucket = table[bucketIndex];
 
         // loop through the bucket to find if it contains term
-        for (HashMap<String, Integer> collision : bucket) {
-            for(String keyTerm : collision.keySet()) { // each collision is a hashmap
-                if (term.equals(keyTerm)) {
-                    return collision.get(term);
-                } 
+        if (bucket!=null) {
+            for (HashMap<String, Integer> collision : bucket) {
+                for(String keyTerm : collision.keySet()) { // each collision is a hashmap
+                    if (term.equals(keyTerm)) {
+                        return collision.get(term);
+                    } 
+                }
             }
+
         }
 
         // if term is not in the table

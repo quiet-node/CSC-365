@@ -1,7 +1,7 @@
 package yelp.dataset.oswego.yelpbackend.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import yelp.dataset.oswego.yelpbackend.models.BusinessModel;
 import yelp.dataset.oswego.yelpbackend.repositories.BusinessRepository;
+import yelp.dataset.oswego.yelpbackend.similarity.CosSim;
 
 @RestController
 @RequestMapping("/yelpdata")
@@ -27,8 +28,34 @@ public class BusinessController {
 
     @GetMapping("/{businessName}")
     public List<BusinessModel> getBusinessByName(@PathVariable String businessName) {
-        
         return repo.findByName(businessName);
+    }
+
+    @GetMapping("/similar/{businessName}")
+    public List<BusinessModel> getSimilarBusinesses(@PathVariable String businessName) {
+        // init cosSim
+        CosSim cosSim = new CosSim();
+
+        // allBs:List<BusinessModel> => List of all businesses
+        List<BusinessModel> allBs = repo.findAll();
+
+        // similarBs:List<BusinessModel> => List of similar businesses
+        List<BusinessModel> similarBs = new ArrayList<BusinessModel>();
+
+        //targetB:BusinessModel => the business associate with the name passed in the url
+        BusinessModel targetB = repo.findByName(businessName).get(0);
+
+        //  loop through b to calculate cosSim
+        for (BusinessModel b : allBs) {
+            double cosSimRate = cosSim.calcSimRate(targetB, b);
+            b.setSimilarityRate(cosSimRate);
+            if (cosSimRate >= 0.8 && cosSimRate <= 1){
+                similarBs.add(b);
+            }
+        }
+
+        
+        return similarBs;
     }
 
     

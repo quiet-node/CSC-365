@@ -10,4 +10,5 @@ import yelp.dataset.oswego.yelpbackend.models.BusinessModel;
 @Repository
 public interface BusinessRepository extends JpaRepository<BusinessModel, Long>  {
     List<BusinessModel> findByName(String name);
+    BusinessModel findById(int id);
 }
