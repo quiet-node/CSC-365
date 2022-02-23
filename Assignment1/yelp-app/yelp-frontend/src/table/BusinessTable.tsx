@@ -1,18 +1,20 @@
-import * as React from 'react';
+import { useEffect } from 'react';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { IallBs } from '../types/interfaces';
 
 interface Props {
-  rows: Array<IallBs>;
+  similarBs: any[];
 }
 
-export default function BusinessTable({ rows }: Props): JSX.Element {
+export default function BusinessTable({ similarBs }: Props): JSX.Element {
+  if (similarBs != null) {
+    console.log(similarBs.length);
+  }
+
   return (
     <Paper>
       <Table className='w-full'>
@@ -42,25 +44,16 @@ export default function BusinessTable({ rows }: Props): JSX.Element {
           {/* {rows.map((row) => ( */}
           {/* <TableRow key={row.id}> */}
           <TableRow>
-            <TableCell align='center'>50.78 %</TableCell>
-
-            <TableCell align='center'>Gastropubs</TableCell>
-            <TableCell align='left'>cell 2</TableCell>
-            <TableCell align='center'>cell4</TableCell>
-            <TableCell align='center'>cell4</TableCell>
-            <TableCell align='center'>cell4</TableCell>
-          </TableRow>
-          {/* <TableRow>
-            <TableCell align='center' width='120px'>
-              cell1
+            <TableCell align='center'>59.82 %</TableCell>
+            <TableCell align='center'>Great Clips</TableCell>
+            <TableCell align='center'>
+              Hair Salons, Spa, Mssage, Hair Salons, Spa, Mssage, Hair Salons,
+              Spa, Mssage, Hair Salons, Spa, Mssage, Hair Salons, Spa, Mssage,
             </TableCell>
-            <TableCell align='center'>cell2</TableCell>
-            <TableCell align='center'>cell3</TableCell>
-            <TableCell align='center'>cell4</TableCell>
-            <TableCell align='center'>cell4</TableCell>
-            <TableCell align='center'>cell4</TableCell>
-          </TableRow> */}
-          {/* ))} */}
+            <TableCell align='center'>150</TableCell>
+            <TableCell align='center'>4.4</TableCell>
+            <TableCell align='center'>15 Union Rod</TableCell>
+          </TableRow>
         </TableBody>
       </Table>
     </Paper>

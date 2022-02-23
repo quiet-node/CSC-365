@@ -3,26 +3,52 @@ import axios from 'axios';
 import SearchIcon from '@material-ui/icons/Search';
 import Header from './Header';
 import BusinessList from './BusinessList';
-import { IallBs } from '../types/interfaces';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import { IBusiness, IBusinessList } from '../types/interfaces';
+import Loader from './Loader';
 
 const YelpData = () => {
-  let allBs: Array<IallBs> = [];
+  let similarBs: IBusinessList[] = [];
+  let allBs: IBusinessList[] = [];
 
   const [businessName, setBusinessName] = useState('');
+  const [allBList, setAllBList] = useState<IBusinessList[]>();
+  const [similarBList, setSimilarBList] = useState<IBusinessList[]>();
+  const [targetBusiness, setTargetBusiness] = useState<IBusiness>();
+  const [isLoading, setIsLoading] = useState<Boolean>(false);
+  const [catToString, setCatToString] = useState('');
 
-  const getSimilarBusinesses = async (e: any): Promise<void> => {
+  const getSimilarBs = async (e: any) => {
     e.preventDefault();
-    const res = await axios.get(
-      `http://localhost:8080/yelpdata/similar/${businessName}`
-    );
-    setBusinessName('');
-    console.log('res.data');
-  };
+    if (businessName != '') {
+      setIsLoading(true);
+      const similarBusinesses = await axios.get(
+        `http://localhost:8080/yelpdata/similar/${businessName}`
+      );
 
-  const getAllBusinesses = async (): Promise<void> => {
-    const res = await axios.get('http://localhost:8080/yelpdata/allBusinesses');
+      const businessByName = await axios.get(
+        `http://localhost:8080/yelpdata/${businessName}`
+      );
 
-    console.log('res.data');
+      setTargetBusiness(businessByName.data[0]);
+
+      await similarBusinesses.data.map((data: any) => {
+        console.log(data);
+        similarBs.push(data);
+      });
+
+      setAllBList(similarBs);
+      setSimilarBList(similarBs);
+      similarBs = [];
+
+      setBusinessName('');
+      setIsLoading(false);
+    }
   };
 
   const getAllBs = async () => {
@@ -31,6 +57,7 @@ const YelpData = () => {
     res.data.map((data: any) => {
       allBs.push(data);
     });
+    setAllBList(allBs);
   };
 
   useEffect(() => {
@@ -38,21 +65,18 @@ const YelpData = () => {
   }, []);
 
   return (
-    <div className=' bg-slate-200 min-h-screen w-full flex justify-center'>
+    <div className=' bg-slate-200 min-h-screen max-h-screen w-full flex justify-center'>
       <div className='flex w-full justify-center flex-col items-center'>
-        <div className='flex justify-center items-center w-full  h-36 mb-8'>
+        <div className=' w-full mb-8'>
           <Header />
         </div>
-        <div className='flex justify-center items-center w-full h-20 '>
-          <div className='bg-white h-32 flex justify-center items-center w-[750px] rounded-lg drop-shadow-2xl'>
-            <form
-              onSubmit={getSimilarBusinesses}
-              className=' flex ml-20 items-center'
-            >
+        <div className='flex justify-center items-center w-full h-36 '>
+          <div className='bg-white h-36 flex justify-center items-center w-[750px] rounded-lg drop-shadow-2xl'>
+            <form onSubmit={getSimilarBs} className=' flex ml-20 items-center'>
               <SearchIcon className='absolute mx-2 text-slate-400' />
               <input
                 type='text'
-                className='py-[7px] pl-24 pr-48 border-[1px] shadow-lg rounded-md outline-0 text-gray-400'
+                className='py-[7px] pl-24 pr-48 w-11/12 border-[1px] shadow-lg rounded-md outline-none text-gray-400'
                 placeholder='Business Name...'
                 name='businessName'
                 value={businessName}
@@ -60,15 +84,62 @@ const YelpData = () => {
               />
               <button
                 type='submit'
-                className='cursor-pointer bg-indigo-500 px-10 ml-5 shadow-2xl rounded-full py-2 font-bold text-white hover:bg-indigo-600 '
+                className='cursor-pointer bg-indigo-500 px-10 ml-5 shadow-2xl hover:drop-shadow-lg rounded-full py-2 font-bold text-white hover:bg-indigo-600 '
               >
                 Find
               </button>
             </form>
           </div>
         </div>
-        <div className='flex justify-center  w-full my-10 py-10'>
-          <BusinessList allBs={allBs} />
+        <div className='flex justify-center h-4/5 max-h-[515px] w-full my-5 py-5 '>
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <div className=' w-11/12 max-h-11/12 overflow-auto drop-shadow-xl '>
+              <Paper>
+                <Table className='w-full '>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell align='center' width='50px'>
+                        Similarity Rate
+                      </TableCell>
+                      <TableCell align='center' width='200px'>
+                        Business Name
+                      </TableCell>
+                      <TableCell align='center' width='350px'>
+                        Categories
+                      </TableCell>
+                      <TableCell align='center' width='50px'>
+                        Reviews
+                      </TableCell>
+                      <TableCell align='center' width='50px'>
+                        Stars
+                      </TableCell>
+                      <TableCell align='center' width='200px'>
+                        Address
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {similarBList?.map((company: any) => (
+                      <TableRow key={company.id}>
+                        <TableCell align='center'>
+                          {(company.similarityRate * 100).toFixed(2)} %
+                        </TableCell>
+                        <TableCell align='center'>{company.name}</TableCell>
+                        <TableCell align='center'>
+                          {company.categories}
+                        </TableCell>
+                        <TableCell align='center'>{company.reviews}</TableCell>
+                        <TableCell align='center'>{company.stars}</TableCell>
+                        <TableCell align='center'>{company.address}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </Paper>
+            </div>
+          )}
         </div>
       </div>
     </div>

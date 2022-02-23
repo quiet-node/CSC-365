@@ -1,15 +1,14 @@
-import axios from 'axios';
-import { IallBs } from '../types/interfaces';
 import BusinessTable from '../table/BusinessTable';
 
-interface IProps {
-  allBs: Array<IallBs>;
+interface Props {
+  similarBs: any[];
 }
 
-const BusinessList = ({ allBs }: IProps): JSX.Element => {
+const BusinessList = ({ similarBs }: Props): JSX.Element => {
+  // console.log(allBs.length);
   return (
-    <div className=' '>
-      <BusinessTable rows={allBs} />
+    <div className=' w-5/6 drop-shadow-xl '>
+      <BusinessTable similarBs={similarBs} />
     </div>
   );
 };

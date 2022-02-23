@@ -48,11 +48,20 @@ public class BusinessController {
         //  loop through b to calculate cosSim
         for (BusinessModel b : allBs) {
             double cosSimRate = cosSim.calcSimRate(targetB, b);
-            b.setSimilarityRate(cosSimRate);
-            if (cosSimRate >= 0.8 && cosSimRate <= 1){
-                similarBs.add(b);
-            }
+            b.setSimilarityRate(cosSimRate);  
+                if (b.getSimilarityRate() >= 0.65 && b.getSimilarityRate() <= 1) {
+                           similarBs.add(b);
+                }
         }
+
+        //sortedBs:List<BusinessModel>
+        // List<BusinessModel> sortedBs = repo.findByOrderBySimilartyRate();
+        
+        // for (BusinessModel b : sortedBs) {
+        //    if (b.getSimilarityRate() >= 0.80 && b.getSimilarityRate() <= 1) {
+        //        similarBs.add(b);
+        //    }
+        // }
 
         
         return similarBs;
