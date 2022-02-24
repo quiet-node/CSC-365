@@ -11,6 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { IBusiness, IBusinessList } from '../types/interfaces';
 import Loader from './Loader';
+import Alert from '@material-ui/lab/Alert';
 
 const YelpData = () => {
   let similarBs: IBusinessList[] = [];
@@ -21,33 +22,44 @@ const YelpData = () => {
   const [similarBList, setSimilarBList] = useState<IBusinessList[]>();
   const [targetBusiness, setTargetBusiness] = useState<IBusiness>();
   const [isLoading, setIsLoading] = useState<Boolean>(false);
+  const [isReady, setIsReady] = useState<Boolean>(false);
   const [catToString, setCatToString] = useState('');
+  const [isValid, setIsValid] = useState(true);
 
   const getSimilarBs = async (e: any) => {
     e.preventDefault();
     if (businessName != '') {
       setIsLoading(true);
-      const similarBusinesses = await axios.get(
-        `http://localhost:8080/yelpdata/similar/${businessName}`
-      );
+      setIsReady(false);
+      try {
+        const similarBusinesses = await axios.get(
+          `http://localhost:8080/yelpdata/similar/${businessName}`
+        );
 
-      const businessByName = await axios.get(
-        `http://localhost:8080/yelpdata/${businessName}`
-      );
+        const businessByName = await axios.get(
+          `http://localhost:8080/yelpdata/${businessName}`
+        );
 
-      setTargetBusiness(businessByName.data[0]);
+        console.log(businessByName);
+        console.log(similarBusinesses.status);
 
-      await similarBusinesses.data.map((data: any) => {
-        console.log(data);
-        similarBs.push(data);
-      });
+        await similarBusinesses.data.map((data: any) => {
+          console.log(data);
+          similarBs.push(data);
+        });
 
-      setAllBList(similarBs);
-      setSimilarBList(similarBs);
-      similarBs = [];
+        setAllBList(similarBs);
+        setSimilarBList(similarBs);
+        similarBs = [];
 
-      setBusinessName('');
-      setIsLoading(false);
+        setBusinessName('');
+        setIsLoading(false);
+        setIsReady(true);
+        setIsValid(true);
+      } catch (err) {
+        setIsValid(false);
+        console.log(err);
+      }
     }
   };
 
@@ -91,53 +103,78 @@ const YelpData = () => {
             </form>
           </div>
         </div>
-        <div className='flex justify-center h-4/5 max-h-[515px] w-full my-5 py-5 '>
-          {isLoading ? (
-            <Loader />
+        <div className=' h-4/5  '>
+          {isValid ? (
+            <div>
+              <div className='flex justify-center w-full my-5 py-5 max-h-[515px]'>
+                {isLoading ? (
+                  <Loader />
+                ) : (
+                  <div className=' w-11/12 max-h-11/12 overflow-auto drop-shadow-xl '>
+                    {isReady ? (
+                      <div>
+                        <Paper>
+                          <Table className='w-full '>
+                            <TableHead>
+                              <TableRow>
+                                <TableCell align='center' width='50px'>
+                                  Similarity Rate
+                                </TableCell>
+                                <TableCell align='center' width='200px'>
+                                  Business Name
+                                </TableCell>
+                                <TableCell align='center' width='350px'>
+                                  Categories
+                                </TableCell>
+                                <TableCell align='center' width='50px'>
+                                  Reviews
+                                </TableCell>
+                                <TableCell align='center' width='50px'>
+                                  Stars
+                                </TableCell>
+                                <TableCell align='center' width='200px'>
+                                  Address
+                                </TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {similarBList?.map((company: any) => (
+                                <TableRow key={company.id}>
+                                  <TableCell align='center'>
+                                    {(company.similarityRate * 100).toFixed(2)}{' '}
+                                    %
+                                  </TableCell>
+                                  <TableCell align='center'>
+                                    {company.name}
+                                  </TableCell>
+                                  <TableCell align='center'>
+                                    {company.categories}
+                                  </TableCell>
+                                  <TableCell align='center'>
+                                    {company.reviews}
+                                  </TableCell>
+                                  <TableCell align='center'>
+                                    {company.stars}
+                                  </TableCell>
+                                  <TableCell align='center'>
+                                    {company.address}
+                                  </TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        </Paper>
+                      </div>
+                    ) : (
+                      <div></div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
           ) : (
-            <div className=' w-11/12 max-h-11/12 overflow-auto drop-shadow-xl '>
-              <Paper>
-                <Table className='w-full '>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell align='center' width='50px'>
-                        Similarity Rate
-                      </TableCell>
-                      <TableCell align='center' width='200px'>
-                        Business Name
-                      </TableCell>
-                      <TableCell align='center' width='350px'>
-                        Categories
-                      </TableCell>
-                      <TableCell align='center' width='50px'>
-                        Reviews
-                      </TableCell>
-                      <TableCell align='center' width='50px'>
-                        Stars
-                      </TableCell>
-                      <TableCell align='center' width='200px'>
-                        Address
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {similarBList?.map((company: any) => (
-                      <TableRow key={company.id}>
-                        <TableCell align='center'>
-                          {(company.similarityRate * 100).toFixed(2)} %
-                        </TableCell>
-                        <TableCell align='center'>{company.name}</TableCell>
-                        <TableCell align='center'>
-                          {company.categories}
-                        </TableCell>
-                        <TableCell align='center'>{company.reviews}</TableCell>
-                        <TableCell align='center'>{company.stars}</TableCell>
-                        <TableCell align='center'>{company.address}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </Paper>
+            <div className=' mt-24'>
+              <Alert severity='error'> No such business </Alert>
             </div>
           )}
         </div>

@@ -25,8 +25,9 @@ public class JsonParser implements CommandLineRunner{
 
     @Override
     public void run(String... args) throws Exception {
-        jsonParser();
-        Testing();
+        // jsonParser();
+        // Testing();
+        // businessRepository.findAll();
 
     }
 
@@ -41,7 +42,7 @@ public class JsonParser implements CommandLineRunner{
 
 
             // loop through the json file
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < 10000; i++) {
                 // each line of the file is a json object
                 line = br.readLine();
 

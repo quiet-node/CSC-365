@@ -1,6 +1,7 @@
 package yelp.dataset.oswego.yelpbackend.controllers;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,22 +50,39 @@ public class BusinessController {
         for (BusinessModel b : allBs) {
             double cosSimRate = cosSim.calcSimRate(targetB, b);
             b.setSimilarityRate(cosSimRate);  
+                if (b.getSimilarityRate() >= 0.55 && b.getSimilarityRate() <= 1) {
+                           similarBs.add(b);
+                }
+        }
+        Collections.sort(similarBs, Collections.reverseOrder());
+        
+        return similarBs;
+    }
+
+    @GetMapping("/")
+    public List<BusinessModel> sortedBs(@PathVariable String businessName) {
+        // init cosSim
+        CosSim cosSim = new CosSim();
+
+        // allBs:List<BusinessModel> => List of all businesses
+        List<BusinessModel> allBs = repo.findAll();
+
+        // similarBs:List<BusinessModel> => List of similar businesses
+        List<BusinessModel> similarBs = new ArrayList<BusinessModel>();
+
+        //targetB:BusinessModel => the business associate with the name passed in the url
+        BusinessModel targetB = repo.findByName(businessName).get(0);
+
+        //  loop through b to calculate cosSim
+        for (BusinessModel b : allBs) {
+            double cosSimRate = cosSim.calcSimRate(targetB, b);
+            b.setSimilarityRate(cosSimRate);  
                 if (b.getSimilarityRate() >= 0.65 && b.getSimilarityRate() <= 1) {
                            similarBs.add(b);
                 }
         }
-
-        //sortedBs:List<BusinessModel>
-        // List<BusinessModel> sortedBs = repo.findByOrderBySimilartyRate();
-        
-        // for (BusinessModel b : sortedBs) {
-        //    if (b.getSimilarityRate() >= 0.80 && b.getSimilarityRate() <= 1) {
-        //        similarBs.add(b);
-        //    }
-        // }
-
-        
         return similarBs;
+
     }
 
     

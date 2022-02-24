@@ -1,8 +1,8 @@
 const Header = (): JSX.Element => {
   return (
-    <div className='flex justify-left w-full items-center h-full mt-3 ml-24'>
+    <div className='flex justify-center  w-full items-center h-full mt-3'>
       <a href='http://localhost:3000'>
-        <img src='../../img/yelp-logo-2.png' alt='' className='h-[65px]' />
+        <img src='../../img/yelp-logo-3.png' alt='' className='h-[65px]' />
       </a>
     </div>
   );
