@@ -1,5 +1,7 @@
 # CSC-365-Yelp-dataset
 
+## Visit [CSC-365-fullstack-app](https://github.com/lgad31vn/CSC-365-fullstack-app) to get the newest version
+
 ## Overview
   This is a full-stack web application that works like a *search engine* which will find the similar and relevant businesses based on user's input. 
   
