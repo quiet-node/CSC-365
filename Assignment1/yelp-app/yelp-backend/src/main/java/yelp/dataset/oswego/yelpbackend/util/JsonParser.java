@@ -36,7 +36,7 @@ public class JsonParser implements CommandLineRunner{
         try {
             // businessRepository.deleteAllInBatch();
             // buffrer reader to read lines in json file
-            FileReader reader = new FileReader("/Users/logan/coding/SUNY_Oswego/CSC-365/In_Class/Assignment1/yelp-app/yelp-dataset/business.json");
+            FileReader reader = new FileReader("YOUR FILE");
             BufferedReader br = new BufferedReader(reader);
             String line = "";
 
