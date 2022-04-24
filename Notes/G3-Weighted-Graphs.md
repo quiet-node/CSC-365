@@ -27,3 +27,9 @@
 - Dijkstra algorithm -->
 [Video explains the algorithm  ](https://www.youtube.com/watch?v=pVfj6mxhdMw)
 
+
+## Minimal Spanning Trees
+- Go through the whole graph then pick up the edges (the lightest weight edge comes first)
+- Make sure the edges picked up won't form a cycle
+
+
