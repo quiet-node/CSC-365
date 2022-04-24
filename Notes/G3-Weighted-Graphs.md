@@ -16,3 +16,14 @@
 
 ## Priority Queues' applicaitons
 ![image](https://user-images.githubusercontent.com/66233296/164999139-8bbcb04d-1053-4c49-a9e3-dbafd58c2d3b.png)
+
+## Prim/Dijkstra
+-Prim and Dijkstra independently presented nearly the same algorithm (differing basically by a single line) for solving MST (Prim) and Shortest path tree (Dijkstra) problems. 
+
+- The objective of the algorithm is to find the shortest path between any two vertices in a graph
+![image](https://user-images.githubusercontent.com/66233296/165000304-99c0f37b-daa3-4629-9b46-ece2aad7e245.png)
+![image](https://user-images.githubusercontent.com/66233296/165000308-b65f484c-ab7d-45c7-9b6d-b71a0d2076b7.png)
+
+- Dijkstra algorithm -->
+[Video explains the algorithm  ](https://www.youtube.com/watch?v=pVfj6mxhdMw)
+
