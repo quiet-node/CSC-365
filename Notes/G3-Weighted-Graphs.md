@@ -23,6 +23,8 @@
 - The objective of the algorithm is to find the shortest path between any two vertices in a graph
 ![image](https://user-images.githubusercontent.com/66233296/165000304-99c0f37b-daa3-4629-9b46-ece2aad7e245.png)
 ![image](https://user-images.githubusercontent.com/66233296/165000308-b65f484c-ab7d-45c7-9b6d-b71a0d2076b7.png)
+![image](https://user-images.githubusercontent.com/66233296/167976233-6a084030-521e-4b72-a80a-683a0c09f095.png)
+
 
 - Dijkstra algorithm -->
 [Video explains the algorithm  ](https://www.youtube.com/watch?v=pVfj6mxhdMw)
