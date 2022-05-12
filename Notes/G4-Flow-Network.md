@@ -29,6 +29,15 @@ while s-t path in G-ressidual
   update G-ressidual
 end while
 ```
+![image](https://user-images.githubusercontent.com/66233296/167977267-bf95a2a6-b873-4730-9cdb-fa2ec210599f.png)
+
+- bottleneck simply means the path with lowest flow
+- augmenting simply means fill the rest of the paths with the lowest flow
+
+![image](https://user-images.githubusercontent.com/66233296/167977470-10ade690-90cf-4466-9111-c38321f8cc0d.png)
+
+- Here, S -> A -> D -> T has bottlenect of 8
+- then S -> C -> D -> T will have bottleneck of 2 since 8 already filled from the last path
 
 
 
