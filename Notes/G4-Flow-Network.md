@@ -39,6 +39,26 @@ end while
 - Here, S -> A -> D -> T has bottlenect of 8
 - then S -> C -> D -> T will have bottleneck of 2 since 8 already filled from the last path
 
+## Edmonds Karp
+![image](https://user-images.githubusercontent.com/66233296/167978393-bfbf2dbe-888f-4556-846d-58b77eee1061.png)
+
+![image](https://user-images.githubusercontent.com/66233296/167978415-f7b939df-5877-4b0e-afd0-67d5cb596683.png)
+![image](https://user-images.githubusercontent.com/66233296/167978434-43806c26-5d53-4e31-a87c-1f6222a65eb5.png)
+- Here, each edge will be its own capacity
+- We augument the edges with the lowest weight
+![image](https://user-images.githubusercontent.com/66233296/167978555-4f64488f-8e5c-45cd-916f-15346403cf07.png)
+![image](https://user-images.githubusercontent.com/66233296/167978644-21026f4d-40bb-49db-89e5-0c5c138a1477.png)
+- find next path
+![image](https://user-images.githubusercontent.com/66233296/167978688-aa0d8db3-4a90-4181-ae4c-8ddcfa8965af.png)
+![image](https://user-images.githubusercontent.com/66233296/167978766-7ea6f6a0-c94c-42d6-9b35-8ff90d44fd4e.png)
+![image](https://user-images.githubusercontent.com/66233296/167978821-8d5f7eab-d587-4c4a-8dd8-0f8c60c7cba6.png)
+
+- Keep doing it until visit all edges
+- Finally,
+![image](https://user-images.githubusercontent.com/66233296/167979055-f3d72fd9-7e15-403d-b569-91b85afcb5bb.png)
+
+
+
 
 
 
