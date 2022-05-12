@@ -12,11 +12,19 @@
 ## Graph Traversal
 
 ### Depth-first search 
-- Using FIFO stack based datastructure
 ![image](https://user-images.githubusercontent.com/66233296/164994298-8a45cd41-7432-4894-b810-2570f9083e8a.png)
 
+- Using LIFO stack based datastructure
+- Each time a node is visited, push that node to the stack until exausht that path. 
+- Now backtracking involving poping the node off from the stack (LIFO) to see if that node still has other unvisited node
+
+
+
 ### Breadth-first search
-- Using LIFO queue based datastructure
 ![image](https://user-images.githubusercontent.com/66233296/164994498-f3a87256-5e65-439d-9084-262173a06d5d.png)
 
+- Using FIFO queue based datastructure (layer by layer algorithm)
+- First visit the root node and push it into a queue, then visit all the adjacent nodes of that node and queuing all of them
+- Until no more adjacent nodes left, now dequeue the first node and consider if the first node of the queue has any unvisited adjacent nodes, visit and queue them
+- Keep repeating the process until the whole graph is traversed
 
